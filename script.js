@@ -17,8 +17,8 @@ console.log(time);
 
 // AJAX call for city being seached ***replace hard coded city name value with search field value
 function displayCityWeather() {
-    var city
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + "Salt Lake City" + "&appid=db5176658b0dab6a2aa19e11a0e01748";
+    let city
+    let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + "Salt Lake City" + "&appid=db5176658b0dab6a2aa19e11a0e01748";
     console.log(queryURL);
 
     $.ajax({
@@ -26,31 +26,47 @@ function displayCityWeather() {
         method: "GET"
     }).then(function(response) {
 
-        var name = response.name;
-        var temp = response.main.temp;
-        var humidity = response.main.humidity;
-        var windSpeed = response.wind.speed;
-        var latitude = response.coord.lat;
-        var longitude = response.coord.lon;
-    
+        //variables to capture API response properties
+        let name = response.name;
+        let tempKelvin = response.main.temp;
+        let tempC = (tempKelvin - 273.15);
+        let tempF = tempC * 1.8 + 32;
+        let humidity = response.main.humidity;
+        let windSpeed = response.wind.speed;
+        let latitude = response.coord.lat;
+        let longitude = response.coord.lon;
+        let weatherDescription = response.weather[0].description;
+        let icon = response.weather[0].icon;
+        let sunrise = response.sys.sunrise;
+        let sunset = response.sys.sunset;
+        let iconURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+
         // will need to pull latitude and longitude from API response to pass back into another AJAX to get UV index
 
         console.log(name);
-        console.log(temp);
+        console.log(tempKelvin);
         console.log(humidity);
         console.log(windSpeed);
         console.log(latitude);
         console.log(longitude);
+        console.log(weatherDescription);
+        console.log(icon);
+        console.log(sunrise);
+        console.log(sunset);
+        console.log(iconURL);
+        console.log("Celsius: " + tempC.toFixed(0));
+        console.log("Fahrenheit: " + tempF.toFixed(0));
+
+        // AJAX call to pass latitude and longitude from initial AJAX into second AJAX call to retrieve UV index
+        $.ajax({
+            url: "http://api.openweathermap.org/data/2.5/uvi?appid=db5176658b0dab6a2aa19e11a0e01748&lat=" + latitude + "&lon=" + longitude,
+            method: "GET"
+        }).then(function(response) {
+            let uv = response.value
+
+            console.log(uv + " (at 12:00 PM local time)");
+        })
     })
 };
 
 displayCityWeather();
-
-
-// => return city name
-// => date searched
-// => icon represenation of weather conditions
-// => temperature
-// => humidity
-// => wind speed
-// => UV index
