@@ -14,17 +14,20 @@
     </div>
     <!--Search for a city element-->
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search for a city" aria-label="Search for a city" aria-describedby="button-addon2">
+        <input type="text" id="city-input" class="form-control" placeholder="Search for a city" aria-label="Search for a city" aria-describedby="button-addon2">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+            <button class="btn btn-outline-secondary" type="button" id="btn-citySearch">Search</button>
         </div>
     </div>
+
     <!--Currently displayed city element-->
+    <div class="current-weather" id="current-weather"></div>
 
     <!--5-Day Forecast element-->
+    <div class="five-day"></div>
 
     <!--Previously searched for cities-->
-
+    <div class="search-history"></div>
 
     
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
