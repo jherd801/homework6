@@ -12,20 +12,21 @@ const time = m.format("h:mm a");
         // api.openweathermap.org/data/2.5/weather?q={city name},{state}&appid={your api key}
         // api.openweathermap.org/data/2.5/weather?q={city name},{state},{country code}&appid={your api key}
 
+// Button click event listener to grab value from search field to then pass into later AJAX call
 $("#btn-citySearch").on("click", function(event) {
-    event.preventDefault();
-    let searchedCity = $("#city-input").val().trim();
-    console.log(searchedCity);
-    displayCityWeather();
+    // event.preventDefault();
+    $("#current-weather").empty();
+    let searchTerm = $("#city-input").val().trim();
+    console.log(searchTerm);
+    displayCityWeather(searchTerm);
 })
 
+// AJAX call to display current weather conditions for city being searched
+function displayCityWeather(searchTerm) {
 
-// AJAX call for city being seached ***replace hard coded city name value with search field value
-function displayCityWeather() {
-
-    let searchedCity = "Paris";
+    let searchedCityURL = searchTerm;
     
-    let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedCity + "&appid=db5176658b0dab6a2aa19e11a0e01748";
+    let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedCityURL + "&appid=db5176658b0dab6a2aa19e11a0e01748";
     console.log(queryURL);
 
     $.ajax({
@@ -51,18 +52,22 @@ function displayCityWeather() {
         let currentWeatherDiv = $("<div class='current-weather'>");
 
         //compile and display current city name
-        let pName = $("<header>").text(name + " (" + date +")");
+        let pName = $("<span class=nameDate>").text(name + " (" + date +")");
         currentWeatherDiv.append(pName);
 
+        //Weather icon
+        let currentIcon = $("<img>").attr("src", iconURL);
+        currentWeatherDiv.append(currentIcon);
+
         //compile and display current temperature information
-        let pTemp = $("<p>").text("Current Temperature: " + tempF + " F" + " (" + tempC + " C)");
+        let pTemp = $("<p>").text("Temperature: " + tempF + " F" + " (" + tempC + " C)");
         currentWeatherDiv.append(pTemp);
 
         //compile and display humidity information
-        let pHumidity = $("<p>").text("Current Humidity: " + humidity + "%");
+        let pHumidity = $("<p>").text("Humidity: " + humidity + "%");
         currentWeatherDiv.append(pHumidity);
 
-        //wind speed
+        //wind speed information
         let pWindSpeed = $("<p>").text("Wind Speed: " + windSpeed + " MPH");
         currentWeatherDiv.append(pWindSpeed);
 
@@ -74,17 +79,14 @@ function displayCityWeather() {
             let uv = response.value
 
 
-        //UV
-        let pUV = $("<p>").text("UV Index: "+ uv + " (at 12:00 PM local time)");
+        //UV information
+        let pUV = $("<p>").text("UV Index: "+ uv);
         currentWeatherDiv.append(pUV);
+        // < 3 = Low, < 6 = Moderate, < 8 = High, < 11 = Very High, >= 11 = Extreme
 
         //Weather description
         let pDescription = $("<p>").text("Description: "+ weatherDescription);
         currentWeatherDiv.append(pDescription);
-
-        //Weather icon
-        let currentIcon = $("<img>").attr("src", iconURL)
-        currentWeatherDiv.append(currentIcon);
 
         //placing all current weather variables into HTML
         $("#current-weather").prepend(currentWeatherDiv);
@@ -93,9 +95,32 @@ function displayCityWeather() {
     })
 };
 
+// Array to hold history of cities entered into search field
+let searchHistory = []
 
-displayCityWeather();
+function renderButtons() {
+    $("#search-history").empty();
 
+    for (var i = 0; i <searchHistory.length; i++) {
+
+        var a = $("<button class=searchedCity>");
+
+        a.attr("data-name", searchHistory[i]);
+
+        a.text(searchHistory[i]);
+
+        $("#search-history").prepend(a);
+    }
+
+}
+
+$("#btn-citySearch").on("click", function(event) {
+    event.preventDefault();
+    let searchTerm = $("#city-input").val().trim();
+    searchHistory.push(searchTerm);
+    console.log(searchHistory);
+    renderButtons();
+})
 
 // console.log(m);
 // console.log(date);
