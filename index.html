@@ -9,27 +9,33 @@
 </head>
 <body>
     
-    <div class="container w-auto p-3">
+    <div>
         <h1>Weather Dashboard</h1>
     </div>
-    <!--Search for a city element-->
-    <div class="input-group mb-3">
-        <input type="text" id="city-input" class="form-control" placeholder="Search for a city" aria-label="Search for a city" aria-describedby="button-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="submit" id="btn-citySearch">Search</button>
+<br><br>
+    <div class="container-fluid">
+        <div class="row">
+            <!--Search for a city element-->
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                    <input type="text" id="city-input" class="form-control" placeholder="Search for a city" label="Search for a city" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="btn-citySearch">Search</button>
+                </div>
+            </div>
+            <!--Currently displayed city element-->
+            <div class="current-weather col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8" id="current-weather"></div>
+        </div>
+                
+        <div class="row">
+            <!--Previously searched for cities-->
+            <div class="search-history col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" id="search-history"></div>
+                
+            <!--5-Day Forecast element-->
+            <div class="five-day col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" id="five-day"></div>
         </div>
     </div>
-
-    <!--Currently displayed city element-->
-    <div class="current-weather" id="current-weather"></div>
-
-    <!--5-Day Forecast element-->
-    <div class="five-day"></div>
-
-    <!--Previously searched for cities-->
-    <div class="search-history" id="search-history"></div>
-
-    
+        
+    </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./script.js"></script>    

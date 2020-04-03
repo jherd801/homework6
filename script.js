@@ -6,6 +6,9 @@ const m = moment();
 const date = m.format("dddd, MMMM Do YYYY");
 const time = m.format("h:mm a");
 
+// Array to hold history of cities entered into search field
+let searchHistory = []
+
 
 // OpenWeatherMap API key = db5176658b0dab6a2aa19e11a0e01748
         // api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}
@@ -14,12 +17,17 @@ const time = m.format("h:mm a");
 
 // Button click event listener to grab value from search field to then pass into later AJAX call
 $("#btn-citySearch").on("click", function(event) {
-    // event.preventDefault();
+    event.preventDefault();
     $("#current-weather").empty();
     let searchTerm = $("#city-input").val().trim();
-    console.log(searchTerm);
+
+    // Set last search term to local storage
+    localStorage.setItem(this.parentNode.previousElementSibling.id, this.parentNode.previousElementSibling.value);
+
+    // Execute search function with user entered search term
     displayCityWeather(searchTerm);
-})
+    forecastCityWeather(searchTerm);
+});
 
 // AJAX call to display current weather conditions for city being searched
 function displayCityWeather(searchTerm) {
@@ -90,14 +98,33 @@ function displayCityWeather(searchTerm) {
 
         //placing all current weather variables into HTML
         $("#current-weather").prepend(currentWeatherDiv);
-            console.log(uv + " (at 12:00 PM local time)");
         })
     })
 };
 
-// Array to hold history of cities entered into search field
-let searchHistory = []
+// Function to retrieve 5-day forecast
+function forecastCityWeather(searchTerm) {
 
+    let searchedCityURL = searchTerm;
+    
+    let queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + searchedCityURL + "&cnt=5&appid=82a2d42c83aa173aed55eec96429932c";
+    console.log(queryURL);
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        for (i = 0; i < 5; i+8);
+        console.log(i);
+        console.log(response.list[4].dt_txt);
+        console.log(response.list[4].dt_txt);
+        console.log(response.list[12].dt_txt);
+        console.log(response.list[12].dt_txt);
+    })
+};
+
+
+// Function to loop through array of previous search terms and renders all array values onto page as separate buttons
 function renderButtons() {
     $("#search-history").empty();
 
@@ -114,13 +141,19 @@ function renderButtons() {
 
 }
 
+//Click event to push search terms into array to build search history
 $("#btn-citySearch").on("click", function(event) {
     event.preventDefault();
     let searchTerm = $("#city-input").val().trim();
     searchHistory.push(searchTerm);
-    console.log(searchHistory);
     renderButtons();
 })
+
+
+
+
+
+
 
 // console.log(m);
 // console.log(date);
