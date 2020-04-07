@@ -26,7 +26,7 @@ $("#btn-citySearch").on("click", function(event) {
 
     // Execute search function with user entered search term
     displayCityWeather(searchTerm);
-    forecastCityWeather(searchTerm);
+    // forecastCityWeather(searchTerm);
 });
 
 // AJAX call to display current weather conditions for city being searched
@@ -114,8 +114,6 @@ function forecastCityWeather(searchTerm) {
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        for (i = 0; i < 5; i+8);
-        console.log(i);
         console.log(response.list[4].dt_txt);
         console.log(response.list[4].dt_txt);
         console.log(response.list[12].dt_txt);

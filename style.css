@@ -36,3 +36,7 @@ input {
     display: block;
 }
 
+.five-day {
+    display: flex;
+    flex-direction: column;
+}
