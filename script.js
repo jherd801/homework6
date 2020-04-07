@@ -34,8 +34,8 @@ function displayCityWeather(searchTerm) {
 
     let searchedCityURL = searchTerm;
     
-    let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedCityURL + "&appid=db5176658b0dab6a2aa19e11a0e01748";
-    console.log(queryURL);
+    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedCityURL + "&appid=db5176658b0dab6a2aa19e11a0e01748";
+
 
     $.ajax({
         url: queryURL,
@@ -53,7 +53,7 @@ function displayCityWeather(searchTerm) {
         let longitude = response.coord.lon;
         let weatherDescription = response.weather[0].description;
         let icon = response.weather[0].icon;
-        let iconURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+        let iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
        
 
         // div to hold and display current weather data for the searched city
@@ -81,7 +81,7 @@ function displayCityWeather(searchTerm) {
 
         // AJAX call to pass latitude and longitude from initial AJAX into second AJAX call to retrieve UV index
         $.ajax({
-            url: "http://api.openweathermap.org/data/2.5/uvi?appid=db5176658b0dab6a2aa19e11a0e01748&lat=" + latitude + "&lon=" + longitude,
+            url: "https://api.openweathermap.org/data/2.5/uvi?appid=db5176658b0dab6a2aa19e11a0e01748&lat=" + latitude + "&lon=" + longitude,
             method: "GET"
         }).then(function(response) {
             let uv = response.value
@@ -107,7 +107,7 @@ function forecastCityWeather(searchTerm) {
 
     let searchedCityURL = searchTerm;
     
-    let queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + searchedCityURL + "&cnt=5&appid=82a2d42c83aa173aed55eec96429932c";
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + searchedCityURL + "&cnt=5&appid=82a2d42c83aa173aed55eec96429932c";
     console.log(queryURL);
 
     $.ajax({
@@ -145,29 +145,4 @@ $("#btn-citySearch").on("click", function(event) {
     let searchTerm = $("#city-input").val().trim();
     searchHistory.push(searchTerm);
     renderButtons();
-})
-
-
-
-
-
-
-
-// console.log(m);
-// console.log(date);
-// console.log(time);
-
-// Console logs for troubleshooting
-// console.log(name);
-// console.log(tempKelvin);
-// console.log(humidity);
-// console.log(windSpeed);
-// console.log(latitude);
-// console.log(longitude);
-// console.log(weatherDescription);
-// console.log(icon);
-// console.log(sunrise);
-// console.log(sunset);
-// console.log(iconURL);
-// console.log("Celsius: " + tempC);
-// console.log("Fahrenheit: " + tempF);
+});
